@@ -1,0 +1,790 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="description" content="Family days out in and around Milton Keynes, October to December 2026: dates, prices, travel and booking links.">
+<title>Spooky to Snowy</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Grandstander:wght@500;700;900&family=Nunito+Sans:opsz,wght@6..12,400;6..12,600;6..12,800&display=swap">
+<style>
+/* Layout: a night-time fairground. Hero skyline (Willen wheel, moon, steam train) → sticky ticket-booth filter bar → events as ticket stubs grouped by month, category or calendar. Single dark world by choice. */
+:root{
+  --night:#15112e; --night-2:#1f1946; --card:#272057; --card-2:#30296a;
+  --ink:#f7f2ff; --muted:#bdb4e3; --line:#40388a;
+  --gold:#ffc94a; --pumpkin:#ff7b24; --holly:#ef4a4f; --pine:#2fc283; --magic:#c77dff; --frost:#86d4ff; --rose:#ff7ab8;
+  --display:"Grandstander","Comic Sans MS","Chalkboard SE",system-ui,sans-serif;
+  --body:"Nunito Sans","Segoe UI",system-ui,-apple-system,sans-serif;
+  --r:18px;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+body{background:var(--night);color:var(--ink);font:16px/1.5 var(--body);margin:0}
+a{color:var(--frost)}
+button,input,select{font:inherit;color:inherit}
+:focus-visible{outline:3px solid var(--gold);outline-offset:2px;border-radius:8px}
+.wrap{max-width:1180px;margin:0 auto;padding-inline:16px}
+
+/* HERO */
+.hero{position:relative;overflow:hidden;background:radial-gradient(120% 90% at 20% 0%,#3a2a86 0%,var(--night-2) 45%,var(--night) 100%);border-bottom:2px solid var(--line)}
+.hero canvas{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+.hero-in{position:relative;padding-block:34px 150px;display:grid;gap:14px}
+.eyebrow{font:800 12px/1 var(--body);letter-spacing:.14em;text-transform:uppercase;color:var(--gold)}
+h1{font:900 clamp(40px,8vw,84px)/.95 var(--display);margin:0;text-wrap:balance;letter-spacing:-.01em}
+h1 .sp{color:var(--pumpkin);text-shadow:0 0 24px rgba(255,123,36,.45)}
+h1 .sn{color:#fff;text-shadow:0 0 22px rgba(134,212,255,.7)}
+.lede{max-width:60ch;color:var(--muted);margin:0;font-size:17px}
+.hero-stats{display:flex;flex-wrap:wrap;gap:10px;margin-top:6px}
+.pill{display:inline-flex;align-items:center;gap:6px;padding:7px 12px;border-radius:999px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.14);font-weight:700;font-size:14px}
+.pill b{font-family:var(--display);color:var(--gold);font-size:18px}
+.skyline{position:absolute;left:0;right:0;bottom:0;height:150px;pointer-events:none}
+.skyline svg{width:100%;height:100%;display:block}
+.wheel{transform-origin:0 0;animation:spin 60s linear infinite}
+.train{animation:chug 26s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes chug{from{transform:translateX(-260px)}to{transform:translateX(1500px)}}
+.puff{animation:puff 2.2s ease-out infinite;transform-box:fill-box;transform-origin:center}
+.puff:nth-child(2){animation-delay:.7s}.puff:nth-child(3){animation-delay:1.4s}
+@keyframes puff{0%{opacity:.9;transform:translate(0,0) scale(.6)}100%{opacity:0;transform:translate(-30px,-34px) scale(1.6)}}
+.next{display:flex;flex-wrap:wrap;align-items:center;gap:10px 14px;margin-top:4px;padding:12px 14px;border-radius:14px;background:rgba(21,17,46,.65);border:1px dashed var(--gold);max-width:640px}
+.next .cd{font:900 26px/1 var(--display);color:var(--gold)}
+.next button{margin-left:auto}
+
+/* FILTER BAR */
+.bar{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:rgba(21,17,46,.94);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+.bar-in{display:grid;gap:10px;padding-block:12px}
+.row{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.scroll{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;padding-bottom:2px;margin-inline:-16px;padding-inline:16px}
+.scroll::-webkit-scrollbar{display:none}
+.search{flex:1 1 220px;min-width:0;display:flex;align-items:center;gap:8px;background:var(--card);border:1px solid var(--line);border-radius:999px;padding:8px 14px}
+.search input{border:0;background:transparent;outline:0;width:100%;min-width:0}
+.chip{flex:none;border:1.5px solid var(--line);background:var(--card);border-radius:999px;padding:7px 13px;font-weight:700;font-size:14px;cursor:pointer;display:inline-flex;align-items:center;gap:6px;transition:transform .15s,background .15s,border-color .15s}
+.chip:hover{transform:translateY(-1px);border-color:var(--muted)}
+.chip[aria-pressed="true"]{background:var(--gold);color:#2a1a00;border-color:var(--gold)}
+.chip .dot{width:9px;height:9px;border-radius:50%;background:var(--c,var(--muted))}
+.chip[aria-pressed="true"] .dot{box-shadow:0 0 0 2px #2a1a00}
+.btn{border:0;border-radius:12px;padding:10px 16px;font-weight:800;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:8px;text-decoration:none;transition:transform .15s,filter .15s}
+.btn:hover{transform:translateY(-1px);filter:brightness(1.08)}
+.btn-gold{background:var(--gold);color:#2a1a00}
+.btn-ghost{background:var(--card);color:var(--ink);border:1.5px solid var(--line)}
+.btn-sm{padding:7px 12px;font-size:14px;border-radius:10px}
+.seg{display:inline-flex;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:3px}
+.seg button{border:0;background:transparent;padding:6px 12px;border-radius:9px;font-weight:700;cursor:pointer;font-size:14px}
+.seg button[aria-pressed="true"]{background:var(--magic);color:#1a0730}
+select,.date{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:7px 10px}
+.more{display:grid;gap:10px;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));padding:12px;border-radius:14px;background:var(--night-2);border:1px solid var(--line)}
+.more label{display:grid;gap:4px;font-size:13px;color:var(--muted);font-weight:700}
+.toggle{display:flex!important;align-items:center;gap:8px!important;color:var(--ink)!important;font-size:14px!important}
+.toggle input{width:18px;height:18px;accent-color:var(--gold)}
+.count{color:var(--muted);font-size:14px}
+.myplan{position:relative}
+.badge{position:absolute;top:-6px;right:-6px;min-width:22px;height:22px;border-radius:11px;background:var(--holly);color:#fff;font:800 12px/22px var(--body);text-align:center;padding:0 5px}
+.badge.pop{animation:pop .4s}
+@keyframes pop{50%{transform:scale(1.4)}}
+
+/* RESULTS */
+main{padding-block:22px 60px}
+.group{margin-bottom:34px}
+.group-h{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;margin:0 0 14px}
+.group-h h2{font:900 clamp(26px,4vw,36px)/1.05 var(--display);margin:0}
+.group-h .sub{color:var(--muted);font-weight:700}
+.grid{display:grid;gap:18px;grid-template-columns:repeat(auto-fill,minmax(min(100%,290px),1fr))}
+.card{position:relative;display:flex;flex-direction:column;background:var(--card);border-radius:var(--r);overflow:hidden;border:1px solid var(--line);transition:transform .2s,box-shadow .2s;min-width:0}
+.card:hover{transform:translateY(-4px) rotate(-.3deg);box-shadow:0 14px 34px rgba(0,0,0,.45),0 0 0 2px var(--c)}
+.cover{position:relative;aspect-ratio:16/10;max-width:100%;background:var(--card-2);overflow:hidden}
+.cover img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .5s}
+.card:hover .cover img{transform:scale(1.05)}
+.cover .art{position:absolute;inset:0}
+.ribbon{position:absolute;left:10px;top:10px;display:flex;gap:6px;flex-wrap:wrap}
+.tag{background:var(--c);color:#170f2e;font:800 11px/1 var(--body);letter-spacing:.08em;text-transform:uppercase;padding:6px 9px;border-radius:7px}
+.heart{position:absolute;right:10px;top:10px;width:42px;height:42px;border-radius:50%;border:0;background:rgba(21,17,46,.78);display:grid;place-items:center;cursor:pointer;transition:transform .15s}
+.heart svg{width:22px;height:22px;fill:none;stroke:#fff;stroke-width:2}
+.heart[aria-pressed="true"] svg{fill:var(--holly);stroke:var(--holly)}
+.heart.burst{animation:pop .45s}
+.credit{position:absolute;right:8px;bottom:6px;font-size:10.5px;background:rgba(0,0,0,.55);padding:2px 6px;border-radius:5px;color:#ddd}
+/* ticket-stub body */
+.stub{display:grid;grid-template-columns:78px 1fr;flex:1}
+.date-stub{position:relative;background:var(--c);color:#170f2e;display:grid;place-content:center;text-align:center;padding:12px 4px;border-right:3px dashed var(--card)}
+.date-stub::before,.date-stub::after{content:"";position:absolute;right:-10px;width:18px;height:18px;border-radius:50%;background:var(--night)}
+.date-stub::before{top:-9px}.date-stub::after{bottom:-9px}
+.date-stub .m{font:800 12px/1 var(--body);letter-spacing:.12em;text-transform:uppercase}
+.date-stub .d{font:900 34px/1 var(--display)}
+.date-stub .w{font:700 12px/1 var(--body)}
+.date-stub .more-d{font:800 11px/1.1 var(--body);margin-top:5px;opacity:.85}
+.body{padding:14px 14px 14px 16px;display:flex;flex-direction:column;gap:8px;min-width:0}
+.body h3{font:700 21px/1.15 var(--display);margin:0;text-wrap:balance}
+.meta{display:grid;gap:3px;font-size:14px;color:var(--muted)}
+.meta span{display:flex;gap:6px;align-items:flex-start}
+.meta svg{flex:none;width:15px;height:15px;margin-top:3px;stroke:currentColor;fill:none;stroke-width:2}
+.mini{display:flex;flex-wrap:wrap;gap:6px}
+.mini span{font-size:12px;font-weight:800;padding:4px 8px;border-radius:6px;background:var(--night-2);border:1px solid var(--line)}
+.mini .free{color:var(--pine);border-color:var(--pine)}
+.mini .ess{color:var(--gold);border-color:rgba(255,201,74,.5)}
+.mini .soon{color:#fff;background:var(--holly);border-color:var(--holly)}
+.actions{display:flex;gap:8px;margin-top:auto;padding-top:6px;flex-wrap:wrap}
+.actions .btn{flex:1 1 auto}
+.empty{text-align:center;padding:50px 16px;border:2px dashed var(--line);border-radius:var(--r);color:var(--muted)}
+.empty h3{font:700 26px var(--display);color:var(--ink);margin:0 0 6px}
+
+/* CALENDAR VIEW */
+.cal{display:grid;gap:22px;grid-template-columns:repeat(auto-fit,minmax(min(100%,340px),1fr))}
+.month{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:14px}
+.month h3{font:900 24px var(--display);margin:0 0 10px}
+.mgrid{display:grid;grid-template-columns:repeat(7,1fr);gap:4px}
+.dow{font:800 11px var(--body);text-align:center;color:var(--muted);letter-spacing:.08em}
+.day{aspect-ratio:1;max-width:100%;border-radius:10px;border:1px solid transparent;background:var(--night-2);display:flex;flex-direction:column;align-items:center;justify-content:flex-start;padding:4px 2px;font:700 13px var(--body);cursor:default;min-width:0}
+.day.has{cursor:pointer;border-color:var(--line)}
+.day.has:hover{border-color:var(--gold)}
+.day.sel{background:var(--gold);color:#2a1a00}
+.day.today{outline:2px solid var(--frost)}
+.day.past{opacity:.35}
+.dots{display:flex;flex-wrap:wrap;gap:2px;justify-content:center;margin-top:3px}
+.dots i{width:6px;height:6px;border-radius:50%;background:var(--c)}
+.daylist{margin-top:18px}
+
+/* DRAWER */
+dialog{border:0;padding:0;background:transparent;color:var(--ink);max-width:min(760px,100%);width:100%;max-height:100%;margin:auto 0 0 auto;height:100%}
+dialog::backdrop{background:rgba(8,5,22,.7);backdrop-filter:blur(3px)}
+.sheet{background:var(--night-2);height:100%;overflow-y:auto;border-left:2px solid var(--line);display:flex;flex-direction:column}
+dialog[open] .sheet{animation:slide .28s ease-out}
+@keyframes slide{from{transform:translateX(40px);opacity:0}}
+.sheet-h{position:sticky;top:0;z-index:2;display:flex;align-items:center;gap:10px;padding:12px 16px;padding-top:calc(12px + env(safe-area-inset-top,0px));background:var(--night-2);border-bottom:1px solid var(--line)}
+.sheet-h h2{font:700 20px/1.2 var(--display);margin:0;flex:1;min-width:0}
+.x{width:40px;height:40px;border-radius:50%;border:1px solid var(--line);background:var(--card);cursor:pointer;font-size:20px;line-height:1}
+.sheet-b{padding:16px;display:grid;gap:18px;padding-bottom:calc(30px + env(safe-area-inset-bottom,0px))}
+.hero-img{border-radius:14px;overflow:hidden;aspect-ratio:16/9;max-width:100%;position:relative;background:var(--card)}
+.hero-img img{width:100%;height:100%;object-fit:cover}
+.sec h4{font:800 12px/1 var(--body);letter-spacing:.14em;text-transform:uppercase;color:var(--gold);margin:0 0 10px}
+.sec p{margin:0 0 8px;max-width:65ch}
+.box{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:12px 14px}
+table{border-collapse:collapse;width:100%;font-variant-numeric:tabular-nums}
+.tbl{overflow-x:auto}
+th,td{text-align:left;padding:8px 6px;border-bottom:1px solid var(--line);vertical-align:top;font-size:15px}
+th{font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+tr:last-child td{border-bottom:0}
+td.price{font-weight:800;color:var(--gold);white-space:nowrap}
+.sess{display:flex;flex-wrap:wrap;gap:6px}
+.sess .t{font-size:13px;font-weight:800;padding:4px 8px;border-radius:7px;background:var(--night);border:1px solid var(--line)}
+.sess .t.k{border-color:var(--gold);color:var(--gold)}
+.sess .t.g{border-color:var(--pine);color:var(--pine)}
+.travel{display:grid;gap:10px;grid-template-columns:repeat(auto-fit,minmax(min(100%,230px),1fr))}
+.travel .box h5{margin:0 0 6px;font:700 17px var(--display);display:flex;align-items:center;gap:8px}
+.travel .box p{font-size:14.5px;margin:0 0 8px}
+.note{display:flex;gap:10px;padding:10px 12px;border-radius:12px;background:rgba(255,201,74,.1);border:1px solid rgba(255,201,74,.45);font-size:14.5px}
+.verify{display:inline-flex;align-items:center;gap:6px;font-size:13px;font-weight:800;padding:5px 10px;border-radius:999px}
+.verify.ok{background:rgba(47,194,131,.15);color:var(--pine);border:1px solid var(--pine)}
+.verify.fl{background:rgba(134,212,255,.12);color:var(--frost);border:1px solid var(--frost)}
+.rem{display:grid;gap:10px}
+.rem .row label{font-size:13px;font-weight:700;color:var(--muted);display:grid;gap:4px;flex:1 1 150px;min-width:0}
+.rem input[type=email]{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:8px 10px;width:100%}
+.copied{color:var(--pine);font-weight:800;font-size:14px}
+.small{font-size:13px;color:var(--muted)}
+.plan-item{display:grid;grid-template-columns:62px 1fr auto;gap:10px;align-items:center;padding:10px;border-radius:12px;background:var(--card);border:1px solid var(--line)}
+.plan-item .ds{background:var(--c);color:#170f2e;border-radius:10px;text-align:center;padding:6px 2px;font:900 22px/1 var(--display)}
+.plan-item .ds small{display:block;font:800 10px var(--body);letter-spacing:.1em}
+.plan-item b{display:block;font-family:var(--display);font-size:17px;line-height:1.15}
+.plan-item div{min-width:0}
+.textout{width:100%;min-height:120px;background:var(--night);color:var(--ink);border:1px solid var(--line);border-radius:10px;padding:10px;font:13px/1.45 ui-monospace,Menlo,monospace}
+.kpis{display:grid;gap:10px;grid-template-columns:repeat(auto-fit,minmax(120px,1fr))}
+.kpi{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:12px}
+.kpi b{display:block;font:900 30px/1 var(--display);color:var(--gold);font-variant-numeric:tabular-nums}
+.kpi span{font-size:13px;color:var(--muted);font-weight:700}
+.bars{display:grid;grid-template-columns:repeat(14,1fr);gap:4px;align-items:end;height:120px;padding-top:16px}
+.bars div{position:relative;background:var(--magic);border-radius:5px 5px 0 0;min-height:2px}
+.bars div.t{background:var(--gold)}
+.bars div span{position:absolute;top:-16px;left:0;right:0;text-align:center;font-size:10.5px;font-weight:800;color:var(--ink)}
+.bars-x{display:grid;grid-template-columns:repeat(14,1fr);gap:4px;font-size:10px;color:var(--muted);text-align:center;margin-top:4px}
+.rank{display:grid;gap:6px}
+.rank div{display:grid;grid-template-columns:1fr auto;gap:8px;align-items:center;font-size:14px}
+.rank i{display:block;height:6px;border-radius:3px;background:var(--c,var(--pine));grid-column:1/-1}
+footer{border-top:1px solid var(--line);padding-block:24px 40px;color:var(--muted);font-size:14px}
+footer .wrap{display:grid;gap:8px}
+@media (max-width:640px){
+  .hero-in{padding-block:24px 130px}
+  .skyline{height:120px}
+  dialog{margin:auto 0 0;height:92%;max-height:92%}
+  .sheet{border-left:0;border-top:2px solid var(--line);border-radius:20px 20px 0 0}
+  @keyframes slide{from{transform:translateY(40px);opacity:0}}
+  .next button{margin-left:0}
+}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation:none!important;transition:none!important}
+}
+</style>
+</head>
+<body>
+
+
+<header class="hero" id="top">
+  <canvas id="sky" aria-hidden="true"></canvas>
+  <div class="wrap hero-in">
+    <div class="eyebrow">Milton Keynes &amp; beyond · Oct – Dec 2026</div>
+    <h1><span class="sp">Spooky</span> to <span class="sn">Snowy</span></h1>
+    <p class="lede">Find family days out in and around Milton Keynes this autumn and winter. Browse by date or type, compare prices and travel options, save your favourites and add reminders to your calendar before tickets sell out.</p>
+    <div class="hero-stats" id="stats"></div>
+    <div class="next" id="next"></div>
+  </div>
+  <div class="skyline" aria-hidden="true">
+    <svg viewBox="0 0 1200 150" preserveAspectRatio="xMidYMax slice">
+      <circle cx="170" cy="58" r="34" fill="#ffe7a3" opacity=".95"/>
+      <circle cx="184" cy="50" r="30" fill="#2a2063" opacity=".0"/>
+      <path d="M0 120 Q150 70 300 112 T620 104 T920 96 T1200 110 V150 H0Z" fill="#251d5a"/>
+      <g fill="#1a1442">
+        <path d="M60 128 l14 -40 l14 40z M78 130 l18 -52 l18 52z M110 128 l12 -34 l12 34z"/>
+        <path d="M1040 126 l14 -44 l14 44z M1062 128 l18 -54 l18 54z M1094 126 l12 -32 l12 32z"/>
+      </g>
+      <g fill="#fff" opacity=".85"><path d="M74 88 l4 -10 l4 10z M92 78 l4 -10 l4 10z M1054 82 l4 -10 l4 10z M1076 74 l4 -10 l4 10z"/></g>
+      <!-- Willen-style observation wheel -->
+      <g transform="translate(900 66)">
+        <path d="M-6 0 L-34 76 M6 0 L34 76" stroke="#4b40a0" stroke-width="5" fill="none"/>
+        <g class="wheel">
+          <circle r="54" fill="none" stroke="#6a5cd6" stroke-width="4"/>
+          <g stroke="#6a5cd6" stroke-width="2">
+            <line x1="-54" y1="0" x2="54" y2="0"/><line x1="0" y1="-54" x2="0" y2="54"/>
+            <line x1="-38" y1="-38" x2="38" y2="38"/><line x1="-38" y1="38" x2="38" y2="-38"/>
+          </g>
+          <g fill="#ffc94a"><circle cx="54" cy="0" r="6"/><circle cx="-54" cy="0" r="6"/><circle cx="0" cy="54" r="6"/><circle cx="0" cy="-54" r="6"/>
+          <circle cx="38" cy="38" r="5" fill="#ff7ab8"/><circle cx="-38" cy="-38" r="5" fill="#ff7ab8"/><circle cx="38" cy="-38" r="5" fill="#86d4ff"/><circle cx="-38" cy="38" r="5" fill="#86d4ff"/></g>
+        </g>
+        <circle r="7" fill="#ffc94a"/>
+      </g>
+      <path d="M0 134 H1200" stroke="#5b4fb8" stroke-width="3"/>
+      <g class="train">
+        <g fill="#ff7b24"><circle class="puff" cx="196" cy="98" r="9" fill="#e9e4ff"/><circle class="puff" cx="196" cy="98" r="8" fill="#e9e4ff"/><circle class="puff" cx="196" cy="98" r="7" fill="#e9e4ff"/></g>
+        <rect x="150" y="106" width="64" height="22" rx="4" fill="#ef4a4f"/>
+        <rect x="190" y="98" width="12" height="12" fill="#2fc283"/>
+        <rect x="152" y="94" width="28" height="18" rx="3" fill="#ef4a4f"/>
+        <rect x="156" y="98" width="10" height="8" fill="#ffe7a3"/>
+        <circle cx="216" cy="117" r="4" fill="#ffe7a3"/>
+        <rect x="80" y="108" width="62" height="20" rx="4" fill="#2fc283"/>
+        <rect x="86" y="112" width="12" height="8" fill="#ffe7a3"/><rect x="104" y="112" width="12" height="8" fill="#ffe7a3"/><rect x="122" y="112" width="12" height="8" fill="#ffe7a3"/>
+        <rect x="10" y="108" width="62" height="20" rx="4" fill="#c77dff"/>
+        <rect x="16" y="112" width="12" height="8" fill="#ffe7a3"/><rect x="34" y="112" width="12" height="8" fill="#ffe7a3"/><rect x="52" y="112" width="12" height="8" fill="#ffe7a3"/>
+        <g fill="#15112e"><circle cx="164" cy="130" r="6"/><circle cx="198" cy="130" r="6"/><circle cx="96" cy="130" r="5"/><circle cx="126" cy="130" r="5"/><circle cx="26" cy="130" r="5"/><circle cx="56" cy="130" r="5"/></g>
+      </g>
+      <!-- pumpkins -->
+      <g transform="translate(330 118)"><ellipse rx="13" ry="10" fill="#ff7b24"/><path d="M-4 -3 l3 -3 l2 3z M3 -3 l3 -3 l2 3z M-6 3 q6 5 12 0" fill="#15112e"/><rect x="-1.5" y="-14" width="3" height="5" fill="#2fc283"/></g>
+      <g transform="translate(358 122) scale(.7)"><ellipse rx="13" ry="10" fill="#ff7b24"/><path d="M-4 -3 l3 -3 l2 3z M3 -3 l3 -3 l2 3z M-6 3 q6 5 12 0" fill="#15112e"/></g>
+    </svg>
+  </div>
+</header>
+
+<nav class="bar" aria-label="Filters">
+  <div class="wrap bar-in">
+    <div class="row">
+      <label class="search"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+        <input id="q" type="search" placeholder="Search events, parks, venues…" aria-label="Search events"></label>
+      <div class="seg" role="group" aria-label="View">
+        <button id="v-month" aria-pressed="true">By date</button>
+        <button id="v-cat" aria-pressed="false">By type</button>
+        <button id="v-cal" aria-pressed="false">Calendar</button>
+      </div>
+      <button class="btn btn-ghost btn-sm" id="moreBtn" aria-expanded="false" aria-controls="more">More filters</button>
+      <button class="btn btn-ghost btn-sm" id="statsBtn" hidden>Page views</button>
+      <button class="btn btn-gold btn-sm myplan" id="planBtn" aria-label="My saved events">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 21s-7.5-4.6-9.5-9.2C1.2 8.6 3.3 5 6.8 5c2 0 3.4 1.1 4.2 2.4C11.8 6.1 13.2 5 15.2 5c3.5 0 5.6 3.6 4.3 6.8C19.5 16.4 12 21 12 21z"/></svg>
+        My plan<span class="badge" id="planCount" hidden>0</span></button>
+    </div>
+    <div class="row scroll" id="monthChips" aria-label="Month"></div>
+    <div class="row scroll" id="catChips" aria-label="Type of event"></div>
+    <div class="more" id="more" hidden>
+      <label>Year<select id="year"><option value="2026">2026</option></select></label>
+      <label>From date<input class="date" type="date" id="from" min="2026-10-06" max="2026-12-31"></label>
+      <label>To date<input class="date" type="date" id="to" min="2026-10-06" max="2026-12-31"></label>
+      <label>Who is it for?<select id="aud"><option value="">Everyone</option><option value="kids">Made for kids</option><option value="family">All the family</option><option value="adults">Mainly grown-ups</option></select></label>
+      <label>Price<select id="price"><option value="">Any price</option><option value="free">Free only</option><option value="paid">Paid</option></select></label>
+      <label>Sort<select id="sort"><option value="date">Soonest first</option><option value="az">A to Z</option><option value="cheap">Free first</option></select></label>
+      <label class="toggle"><input type="checkbox" id="ess"> Booking essential only</label>
+      <label class="toggle"><input type="checkbox" id="savedOnly"> Saved only</label>
+      <label class="toggle"><input type="checkbox" id="hideAdult" checked> Hide grown-up-only events</label>
+      <button class="btn btn-ghost btn-sm" id="reset">Clear all filters</button>
+    </div>
+    <div class="count" id="count" aria-live="polite"></div>
+  </div>
+</nav>
+
+<main class="wrap" id="results"></main>
+
+<footer>
+  <div class="wrap">
+    <div>A green tick means the details match the organiser's website. A blue label means they come from the printed programme. Prices and times can change, so confirm on the booking page before you pay.</div>
+    <div>Travel times start from Central Milton Keynes and are approximate. Photos are taken from the event flyers and brochures, and every event links to its organiser's website.</div>
+  </div>
+</footer>
+
+<dialog id="dlg" aria-labelledby="dlgTitle"><div class="sheet"><div class="sheet-h"><h2 id="dlgTitle"></h2><button class="x" id="dlgX" aria-label="Close">×</button></div><div class="sheet-b" id="dlgBody"></div></div></dialog>
+
+<script>
+/* ---------- DATA ---------- */
+const TODAY = (()=>{const d=new Date();return new Date(d.getFullYear(),d.getMonth(),d.getDate());})();
+const CATS = {
+  halloween:{n:"Halloween",c:"var(--pumpkin)"},
+  christmas:{n:"Christmas",c:"var(--holly)"},
+  shows:{n:"Shows & panto",c:"var(--rose)"},
+  trains:{n:"Steam trains",c:"var(--frost)"},
+  animals:{n:"Zoo & animals",c:"var(--gold)"},
+  nature:{n:"Nature & walks",c:"var(--pine)"},
+  active:{n:"Ride & run",c:"#7ee0d0"},
+  crafts:{n:"Crafts",c:"var(--magic)"},
+  music:{n:"Music",c:"#ffd27a"},
+  community:{n:"Community",c:"#a9b8ff"}
+};
+const PT = "https://www.theparkstrust.com/events/";
+const V = {
+  stanton:{name:"Stantonbury Theatre",addr:"Stantonbury Campus, Purbeck, Milton Keynes MK14 6BN",q:"Stantonbury Theatre, MK14 6BN",
+    car:"About 10–15 minutes (≈4 miles) from Central MK along the grid roads, following signs for Stantonbury Campus.",
+    train:"Nearest stations are Wolverton (≈2.5 miles) or Milton Keynes Central (≈4 miles). Finish with a local bus or a short taxi.",
+    info:"https://www.stantonburytheatre.co.uk/your-visit/how-to-find-us/", phone:"01908 324466 (option 2)"},
+  zoo:{name:"Hertfordshire Zoo",addr:"White Stubbs Lane, Broxbourne, Hertfordshire EN10 7QA",q:"Hertfordshire Zoo, EN10 7QA",
+    car:"About 1 hr 10 min (≈60 miles): M1 south, M25 east to junction 25, then A10 north to Broxbourne. On-site car park.",
+    train:"About 2 hours: MK Central to London Euston, Victoria line to Tottenham Hale, train to Broxbourne, then a 5-minute taxi. The zoo no longer runs a station shuttle, so book a return taxi before evening events (Broxbourne Cars 01992 464007).",
+    info:"https://hertfordshirezoo.com/visiting/transport/", phone:"01992 470490"},
+  lbr:{name:"Leighton Buzzard Railway, Page's Park Station",addr:"Billington Road, Leighton Buzzard LU7 4TG",w3w:"either.gallons.rally",q:"Page's Park Station, LU7 4TG",
+    car:"About 25 minutes (≈12 miles) south on the A5 from Central MK. Page's Park is on the south side of Leighton Buzzard. Roads get busy at Christmas, so leave extra time.",
+    train:"MK Central to Leighton Buzzard takes about 10–15 minutes. The mainline station is on the west side of town, about 2 miles from Page's Park; take a local Arriva bus or a taxi.",
+    info:"https://www.buzzrail.uk/your-visit/find-us/", phone:"01525 373888"},
+};
+// Parks Trust venues: [name, meeting point, what3words, maps query, nearest station note]
+function park(name,meet,w3w,q,stn){return {name,addr:meet,w3w,q,
+  car:"Inside Milton Keynes: about 10–20 minutes from the centre. Park at the meeting point above.",
+  train:stn+" Then a local bus, a taxi or the Redway on foot or bike.",
+  info:"https://www.theparkstrust.com/events/",phone:"01908 233600"};}
+const P = {
+  glmp:park("Great Linford Manor Park","Car park off Parklands, St Leger Drive, Great Linford MK14 5DZ","kingdom.surfacing.feast","Parklands, St Leger Drive, Great Linford MK14 5DZ","Nearest station: Wolverton (≈2.5 miles) or MK Central (≈3.5 miles)."),
+  glmpHall:park("Great Linford Manor Park","Memorial Hall car park, Marsh Drive, Great Linford MK14 5AS","unite.nipping.places","Marsh Drive, Great Linford MK14 5AS","Nearest station: Wolverton (≈2.5 miles)."),
+  wough:park("Woughton Community Orchard","Woughton Orchard entrance, Newport Road. Park at Woughton Playing Fields","debit.each.fetch","Woughton Playing Fields, Newport Road, Milton Keynes","Nearest station: Bletchley or MK Central (each ≈3 miles)."),
+  lough:park("Loughton Valley Park","Roman Villa car park, Constantine Way, Bancroft MK13 0RA","blissful.bonfires.tube","Constantine Way, Bancroft MK13 0RA","Nearest station: MK Central (≈2 miles)."),
+  loughB:park("Loughton Valley Park","Car park on Bradwell Road, Loughton, off H4 Dansteed Way","automate.frog.rinse","Bradwell Road, Loughton, Milton Keynes","Nearest station: MK Central (≈1.5 miles)."),
+  camp:park("Campbell Park","Campbell Park Pavilion, 1300 Silbury Boulevard MK9 4AD","bravest.detergent.redeemed","Campbell Park Pavilion, MK9 4AD","Nearest station: MK Central (≈1.5 miles across the city centre)."),
+  willenN:park("Willen Lake North","Car park on V11 Tongwell Street, opposite Cotton Valley","train.crusher.anchorman","Willen Lake North, Tongwell Street, Milton Keynes","Nearest station: MK Central (≈3 miles)."),
+  willenS:park("Willen Lake South","By the Willen Observation Wheel","lightens.outfitter.happening","Willen Observation Wheel, Milton Keynes","Nearest station: MK Central (≈3 miles)."),
+  willen:park("Willen Lake","Willen Lake, Milton Keynes","","Willen Lake, Milton Keynes","Nearest station: MK Central (≈3 miles)."),
+  tree:park("Tree Cathedral","Park at Willen Lake car parks on V10 Brickhill Street, then follow the route to the Tree Cathedral","carting.presumes.gets","Tree Cathedral, Milton Keynes","Nearest station: MK Central (≈3 miles)."),
+  cald:park("Caldecotte Lake","Windmill car park, Lakeside Grove, off H10 Bletcham Way","goal.riches.runner","Caldecotte Lake windmill, Milton Keynes","Nearest station: Bow Brickhill (≈1 mile) or Bletchley (≈2.5 miles)."),
+  linW:park("Linford Wood","Car park on Enfield Chase, V7 Saxon Street","chats.region.perplexed","Linford Wood, Enfield Chase, Milton Keynes","Nearest station: MK Central (≈2.5 miles)."),
+  linLakes:park("Linford Lakes Nature Reserve","Linford Lakes Nature Reserve, Wolverton Road MK14 5AH","forensic.loving.boldest","Linford Lakes Nature Reserve, MK14 5AH","Nearest station: Wolverton (≈2 miles)."),
+  stanLow:park("Stanton Low Park","Car park on Newport Road, Oakridge Park","pays.likening.looks","Stanton Low Park, Newport Road, Milton Keynes","Nearest station: Wolverton (≈2 miles)."),
+  water:park("Waterhall Park","Car park on Mill Road, Water Eaton","shells.rabble.pace","Mill Road, Water Eaton, Milton Keynes","Nearest station: Fenny Stratford (≈0.5 mile) or Bletchley (≈1.5 miles)."),
+  rose:park("Milton Keynes Rose","Park in the centre:mk car parks and use the Redway bridge into the park","painting.codes.jammy","Milton Keynes Rose, Campbell Park","Nearest station: MK Central (≈1.5 miles through the centre)."),
+  howe:park("Howe Park Wood","Car park off H7 Chaffron Way","pound.trespass.munched","Howe Park Wood, Milton Keynes","Nearest station: MK Central or Bletchley (each ≈2.5 miles)."),
+  ouzel:park("Ouzel Valley Park","Woughton Playing Fields, Newport Road, just north of H8 Standing Way","strain.miss.feels","Woughton Playing Fields, Newport Road, Milton Keynes","Nearest station: Bletchley or MK Central (each ≈3 miles)."),
+  shenley:park("Shenley Wood","Entrance to Shenley Pavilions, Chalkdell Drive MK5 6LB","driver.tolerable.telephone","Shenley Pavilions, MK5 6LB","Nearest station: MK Central (≈2.5 miles)."),
+  tear:park("Teardrop Lakes","Car park on Davy Avenue, Knowlhill","love.unhelpful.blurred","Davy Avenue, Knowlhill, Milton Keynes","Nearest station: MK Central (≈1 mile)."),
+  edu:park("Parks Trust Education Centre","Location and timings are on The Parks Trust website","","Campbell Park Pavilion, MK9 4AD","Check the Parks Trust website for the centre's location."),
+};
+const hr = (from,to,step=1)=>{const a=[];for(let h=from;h<=to;h+=step)a.push((h<10?"0":"")+h+":30");return a;};
+const SANTA = d=>"https://buy.myonlinebooking.co.uk/leightonbuzzardrailway/sessions.aspx?tid=4&cdate="+d;
+const TS = "https://stantonburytheatre.ticketsolve.com/ticketbooth/shows/873683529/events/";
+
+const EVENTS = [
+ {id:"ghost",title:"Halloween Ghost Walks",cats:["halloween","nature"],aud:"family",img:null,art:"ghost",
+  blurb:"Family-friendly evening walks led by a professional storyteller, with spooky local tales along the way. Bring a torch and sturdy shoes.",
+  age:"All ages (not recommended for under-2s)",essential:true,verified:"ok",
+  prices:[["Everyone","£3 per person"]],priceMin:3,
+  sessions:[{d:"2026-10-14",t:"18:00",e:"19:00",v:P.glmp,book:PT+"halloween-ghost-walks-great-linford-manor-park/"},
+            {d:"2026-10-23",t:"18:00",e:"19:00",v:P.wough,book:PT},
+            {d:"2026-10-29",t:"18:00",e:"19:00",v:P.lough,book:PT+"halloween-ghost-walks-loughton-valley-park/"}],
+  notes:["Arrive 15 minutes early; each walk lasts about an hour.","Tickets are non-refundable. There are no public toilets in these parks."],
+  src:"Parks Trust event pages (14 and 29 Oct confirmed); 23 Oct from the brochure"},
+ {id:"magic",title:"Halloween Magic Show",cats:["halloween","shows"],aud:"kids",img:"img/halloween-magic.jpg",
+  blurb:"Krisgar and his puppet sidekick Tricky Teddy return for a fifth year with magic, ventriloquism, illusion, songs and plenty of audience fun. A perfect treat before trick-or-treating.",
+  age:"Ages 4+ · about 60 minutes",essential:false,verified:"ok",
+  prices:[["Adult","£10"],["Concession","£8"],["Family (2 adults + 2 children)","£34"],["Booking fee","+£1.50 per ticket"]],priceMin:8,
+  sessions:[{d:"2026-10-31",t:"14:30",e:"15:30",v:V.stanton,book:"https://stantonburytheatre.ticketsolve.com/ticketbooth/shows/873688778"}],
+  page:"https://www.stantonburytheatre.co.uk/whats-on/all-shows/halloween-magic-show/17724/",src:"stantonburytheatre.co.uk"},
+ {id:"dinos",title:"Dinos After Dark",cats:["halloween","animals"],aud:"kids",img:"img/dinos.jpg",
+  blurb:"Over 40 life-size animatronic dinosaurs light up after dark, with UV Halloween drummers, a silent disco, face painting, glitter tattoos, inflatable dinos, the Rex Express train and dino meet-and-greets.",
+  age:"All ages · contains flashing lights",essential:true,verified:"ok",
+  prices:[["Adult (16+)","Shown at checkout"],["Child (2–15)","Shown at checkout"],["Under 2","Ticket needed (shown at checkout)"],["Carer","Free with proof of eligibility"]],priceMin:null,
+  sessions:["2026-10-23","2026-10-24","2026-10-25","2026-10-30","2026-10-31","2026-11-01"].map(d=>({d,t:"17:30",e:"20:30",v:V.zoo,book:"https://bookings.hertfordshirezoo.com/product/event-tickets/67?cid=6"})),
+  notes:["A separate ticket: it does not include the animal park, and memberships don't cover it. Tickets are non-refundable.","The zoo's site does not publish prices outside the booking page, so check the price at checkout."],
+  page:"https://hertfordshirezoo.com/news/dinos-after-dark-at-hertfordshire-zoo/",src:"hertfordshirezoo.com"},
+ {id:"xmaszoo",title:"Christmas Wonderland at Hertfordshire Zoo",cats:["christmas","animals"],aud:"kids",img:"img/xmas-zoo.jpg",
+  blurb:"Giant light displays, a digital Polar Express ride to the North Pole, Santa's Grotto with a gift for every participating child, letters to Santa and marshmallows with Mrs Claus by the fire pit.",
+  age:"All ages · under-2s free (no gift unless you buy an under-2 participating ticket)",essential:true,verified:"ok",
+  prices:[["Christmas Wonderland ticket","Shown at checkout"],["Evening entry","Reduced price (zoo animals closed)"],["Under 2","Free (gift needs a paid under-2 ticket)"],["Extras","Marshmallows, food and Santa photos cost extra"]],priceMin:null,
+  sessions:["2026-11-21","2026-11-22","2026-11-28","2026-11-29","2026-12-05","2026-12-06","2026-12-12","2026-12-13","2026-12-19","2026-12-20","2026-12-21","2026-12-22","2026-12-23","2026-12-24"].map(d=>({d,t:"09:30",e:d==="2026-12-24"?"16:30":"19:30",v:V.zoo,book:"https://bookings.hertfordshirezoo.com/day-tickets/group/all"})),
+  notes:["You book a 15-minute entry slot. It is your entry time, not a set time to meet Santa.","Opening hours differ on the zoo's site: the FAQ says 9:30am–7:30pm, an older news page says until 8:30pm. Christmas Eve closes at 4:30pm. Check when you book.","Blue Light and Blue Peter discounts don't apply."],
+  page:"https://hertfordshirezoo.com/christmas-wonderland-faqs/",src:"hertfordshirezoo.com (news page and FAQ)"},
+ {id:"panto",title:"Beauty and the Beast (pantomime)",cats:["christmas","shows"],aud:"kids",img:"img/panto.jpg",
+  blurb:"RARE Pantomimes' traditional family panto with slapstick, classic songs and loud audience participation. Can Beauty break the spell before time runs out?",
+  age:"All the family · about 2 hours with an interval",essential:false,verified:"ok",
+  prices:[["Adult","£24.50"],["Child (under 16)","£19.50"],["Family (2 adults + 2 children)","£80"],["Booking fee","+£1.50 per ticket"]],priceMin:19.5,
+  sessions:[["12","13:00","129668207"],["12","16:30","129668216"],["13","13:00","129668210"],["13","16:30","129668217"],["16","18:30","129668224","Relaxed"],["18","18:30","129668223"],["19","13:00","129668211"],["19","16:30","129668218"],["20","13:00","129668212"],["20","16:30","129668219"],["21","13:00","129668213"],["21","16:30","129668220"],["22","13:00",null],["22","16:30","129668221"],["23","13:00","129668215"],["23","16:30","129668222"],["24","11:00","129668225"],["24","15:00","129668226"]]
+    .map(([d,t,id,k])=>({d:"2026-12-"+d,t,e:null,v:V.stanton,book:id?TS+id:"https://www.stantonburytheatre.co.uk/whats-on/all-shows/beauty-and-the-beast/17681/",kind:k})),
+  notes:["The printed flyer's heading says 'Saturday 19th – Thursday 24th', but its own timetable and the theatre's website both start on Saturday 12 December.","Relaxed performance, Wed 16 Dec at 6:30pm: lights stay low, sound is softer, no loud bangs or pyrotechnics, and the cast introduce themselves first.","No public shows on 14, 15 or 17 Dec. The daytime show on 16 Dec is for schools.","The theatre's booking link for Tue 22 Dec at 1pm points to the wrong performance, so that button opens the show page instead."],
+  page:"https://www.stantonburytheatre.co.uk/whats-on/all-shows/beauty-and-the-beast/17681/",src:"stantonburytheatre.co.uk"},
+ {id:"santa",title:"Santa's Steam Specials",cats:["christmas","trains"],aud:"kids",img:"img/santa-train.jpg",
+  blurb:"A 25-minute return steam train ride to Leedon Loop, then Santa's Grotto back at Page's Park. Every child aged 12 and under gets a gift; mince pies and punch for grown-ups, biscuits for children.",
+  age:"All ages · allow about an hour",essential:true,verified:"ok",
+  prices:[["Adult (13+)","£13 (early bird £10)"],["Child (2–12)","£15 (early bird £13)"],["Under 2, with present","£9 (early bird £7)"]],priceMin:7,
+  sessions:[].concat(
+    ...[["28/Nov/26","2026-11-28",hr(10,14)],["29/Nov/26","2026-11-29",hr(10,14)],["2/Dec/26","2026-12-02",hr(10,14)],["5/Dec/26","2026-12-05",hr(10,16)],["6/Dec/26","2026-12-06",hr(10,16)],["9/Dec/26","2026-12-09",hr(10,14)],["12/Dec/26","2026-12-12",hr(10,16)],["13/Dec/26","2026-12-13",hr(10,16)],["16/Dec/26","2026-12-16",hr(10,14)],["19/Dec/26","2026-12-19",hr(10,17)],["20/Dec/26","2026-12-20",hr(10,17)],["21/Dec/26","2026-12-21",hr(10,17)],["22/Dec/26","2026-12-22",hr(10,17)],["23/Dec/26","2026-12-23",hr(10,17)],["24/Dec/26","2026-12-24",hr(10,14)]]
+    .map(([c,d,ts])=>ts.map(t=>({d,t,e:null,v:V.lbr,book:SANTA(c),
+      kind:(["2026-11-28","2026-11-29","2026-12-02"].includes(d)&&["13:30","14:30"].includes(t))?"SEN quiet":(t>="16:30"&&d>="2026-12-19"?"Glow in the dark":(["2026-11-28","2026-11-29","2026-12-02"].includes(d)?"Early bird":null))})))),
+  notes:["Early bird prices on Sat 28 Nov, Sun 29 Nov and Wed 2 Dec. The 1:30pm and 2:30pm trains on those days are quiet trains for SEN visitors.","Glow-in-the-dark trains (4:30pm and 5:30pm, 19–23 Dec) swap punch for hot chocolate and include a marshmallow to toast at the fire pit.","Only assistance dogs on Santa trains. These often sell out; the railway's newsletter gets priority booking."],
+  page:"https://www.buzzrail.uk/christmas/santa-s-steam-specials/",src:"buzzrail.uk and the 2026 Santa leaflet"},
+ {id:"mince",title:"Mince Pie Specials",cats:["christmas","trains"],aud:"family",img:"img/steam.jpg",
+  blurb:"A relaxed post-Christmas steam train ride with seasonal refreshments. On the last train each day, bring your Elf to tuck into a sleeping bag and leave with Santa until next year.",
+  age:"All ages",essential:true,verified:"ok",
+  prices:[["Adult","£11"],["Child","£8"],["Under 2","Free"]],priceMin:0,
+  sessions:[].concat(...["27","28","29","30"].map(d=>["11:00","12:00","13:00","14:00"].map(t=>({d:"2026-12-"+d,t,e:null,v:V.lbr,book:SANTA(d+"/Dec/26"),kind:t==="14:00"?"Elf send-off":null})))),
+  page:"https://www.buzzrail.uk/christmas/mince-pie-specials/",src:"buzzrail.uk and the 2026 Santa leaflet"},
+ {id:"carols",title:"Carols at the Cathedral",cats:["christmas","music","community"],aud:"family",img:"img/lanterns.jpg",
+  blurb:"The Parks Trust's annual carol singing among the trees, with a local band. Bring a lantern and wrap up warm.",
+  age:"All ages",essential:false,verified:"fl",prices:[["Everyone","Free"]],priceMin:0,
+  sessions:[{d:"2026-12-13",t:"14:00",e:"17:00",v:P.tree,book:PT}],src:"Parks Trust autumn/winter brochure"},
+ {id:"wreath",title:"Workshop: Festive Wreaths",cats:["christmas","crafts"],aud:"adults",img:null,art:"wreath",
+  blurb:"Make an eco-friendly Christmas wreath in an evening workshop at Campbell Park Pavilion.",
+  age:"Best for grown-ups and older teens",essential:true,verified:"fl",prices:[["Per person","£39"]],priceMin:39,
+  sessions:["2026-11-30","2026-12-01","2026-12-02","2026-12-03","2026-12-04"].map(d=>({d,t:"18:00",e:"20:00",v:P.camp,book:PT})),src:"Parks Trust brochure"},
+ {id:"stars",title:"Stars in the Park",cats:["nature"],aud:"family",img:null,art:"stars",
+  blurb:"An evening under the sky at Campbell Park. Dress warmly for an after-dark event.",
+  age:"Family event",essential:true,verified:"fl",prices:[["Per person","£8"]],priceMin:8,
+  sessions:[{d:"2026-11-16",t:"17:30",e:null,v:P.camp,book:PT}],src:"Parks Trust brochure"},
+ {id:"nighthike",title:"Night Hike",cats:["nature","active"],aud:"family",img:null,art:"moon",isNew:true,
+  blurb:"Explore the parks after dark with a guide. It falls on Bonfire Night, so you might spot fireworks.",
+  age:"Family event · bring a torch",essential:false,verified:"fl",prices:[["Everyone","Free"]],priceMin:0,
+  sessions:[{d:"2026-11-05",t:"17:30",e:null,v:P.cald,book:PT}],src:"Parks Trust brochure"},
+ {id:"apple",title:"Golden Jubilee Apple Day",cats:["nature","community"],aud:"family",img:"img/orchard.jpg",
+  blurb:"A celebration of all things apple at the community orchard. Park at Woughton Playing Fields and follow the signs.",
+  age:"All ages",essential:false,verified:"fl",prices:[["Everyone","Free"]],priceMin:0,
+  sessions:[{d:"2026-10-17",t:"12:00",e:"16:00",v:P.wough,book:PT}],src:"Parks Trust brochure"},
+ {id:"edu",title:"Education Centre Open Mornings",cats:["nature"],aud:"kids",img:"img/orchard.jpg",
+  blurb:"Free nature challenges at the Parks Trust Education Centre during half term, plus extra activities you can book.",
+  age:"Children with their grown-ups",essential:false,verified:"fl",prices:[["Drop-in","Free"],["Extra activities","Bookable, prices on the website"]],priceMin:0,
+  sessions:["2026-10-27","2026-10-28","2026-10-29"].map(d=>({d,t:"09:30",e:"12:30",v:P.edu,book:PT})),
+  notes:["The brochure says 'half term, Tue–Thu'. Milton Keynes half term is 26–30 October 2026, so that means Tuesday 27 to Thursday 29 October. Check the website for exact timings and the centre's location."],src:"Parks Trust brochure"},
+ {id:"glmp",title:"Great Linford Manor Park Guided Walks",cats:["nature"],aud:"family",img:null,art:"leaf",
+  blurb:"Guided walks around the historic manor park and its grounds.",
+  age:"All ages",essential:false,verified:"fl",prices:[["Everyone","Free"]],priceMin:0,
+  sessions:[["2026-10-09","10:30"],["2026-10-25","14:00"],["2026-11-13","10:30"],["2026-11-29","14:00"],["2026-12-11","10:30"],["2026-12-27","14:00"]].map(([d,t])=>({d,t,e:null,v:P.glmp,book:PT})),src:"Parks Trust brochure"},
+ {id:"folklore",title:"Walk & Talk: Botanical Folklore",cats:["nature","halloween"],aud:"family",img:null,art:"leaf",
+  blurb:"The magic of autumn: myths, stories and legends about British plants and trees, and how people used them.",
+  age:"Older children and adults",essential:true,verified:"fl",prices:[["Per person","£5"]],priceMin:5,
+  sessions:[{d:"2026-10-13",t:"11:00",e:"12:30",v:P.glmpHall,book:PT}],src:"Parks Trust brochure"},
+ {id:"fungi",title:"Walk & Talk: An Introduction to Fungi",cats:["nature"],aud:"family",img:null,art:"mushroom",
+  blurb:"Discover the fungi growing in Linford's ancient woodland. Two sessions on the day.",
+  age:"Older children and adults",essential:true,verified:"fl",prices:[["Per person","£5"]],priceMin:5,
+  sessions:[{d:"2026-11-07",t:"10:00",e:"12:00",v:P.linW,book:PT},{d:"2026-11-07",t:"13:00",e:"15:00",v:P.linW,book:PT}],src:"Parks Trust brochure"},
+ {id:"stroll",title:"Inclusive Stroll with Sensory Narration",cats:["nature","community"],aud:"family",img:"img/stroll.jpg",
+  blurb:"A short, accessible walk with descriptive narration, designed for all ages and abilities.",
+  age:"All ages and abilities · accessible route",essential:false,verified:"fl",prices:[["Everyone","Free"]],priceMin:0,
+  sessions:[{d:"2026-11-23",t:"10:30",e:null,v:P.willenS,book:PT}],src:"Parks Trust brochure"},
+ {id:"ride",title:"Parks & Ride",cats:["active"],aud:"family",img:null,art:"bike",
+  blurb:"Guided bike rides through MK's parks. The 1 November ride is a longer trail ride from Campbell Park.",
+  age:"Riders who can manage a park ride",essential:false,verified:"fl",prices:[["Everyone","Free"]],priceMin:0,
+  sessions:[{d:"2026-10-25",t:"11:00",e:null,v:P.loughB,book:PT},{d:"2026-11-01",t:"09:00",e:null,v:P.camp,book:PT,kind:"Trail ride"}],src:"Parks Trust brochure"},
+ {id:"run",title:"Parks & Run",cats:["active"],aud:"family",img:null,art:"run",
+  blurb:"A friendly group run through the parks.",
+  age:"Runners of most abilities",essential:false,verified:"fl",prices:[["Everyone","Free"]],priceMin:0,
+  sessions:[{d:"2026-11-01",t:"10:00",e:null,v:P.willenN,book:PT},{d:"2026-12-06",t:"10:00",e:null,v:P.ouzel,book:PT}],src:"Parks Trust brochure"},
+ {id:"woof",title:"Woof Walk",cats:["nature","active"],aud:"family",img:null,art:"dog",
+  blurb:"A guided walk for dogs and their families.",
+  age:"Bring a dog",essential:true,verified:"fl",prices:[["Per dog","£1"]],priceMin:1,
+  sessions:[{d:"2026-10-31",t:"10:00",e:null,v:P.stanLow,book:PT},{d:"2026-11-28",t:"10:00",e:null,v:P.cald,book:PT}],src:"Parks Trust brochure"},
+ {id:"litter",title:"Community Litter Pick",cats:["community"],aud:"family",img:"img/litter.jpg",
+  blurb:"Help keep the parks clean with the Parks Trust team. A good one for children who love a mission.",
+  age:"All ages with a grown-up",essential:false,verified:"fl",prices:[["Everyone","Free"]],priceMin:0,
+  sessions:[{d:"2026-10-30",t:"11:00",e:null,v:P.water,book:PT},{d:"2026-11-10",t:"11:00",e:null,v:P.rose,book:PT},{d:"2026-12-20",t:"11:00",e:null,v:P.camp,book:PT}],src:"Parks Trust brochure"},
+ {id:"flavour",title:"Flavour Fest",cats:["community"],aud:"family",img:null,art:"food",
+  blurb:"A food festival weekend at Willen Lake.",
+  age:"All ages",essential:false,verified:"fl",prices:[["Entry","See the Parks Trust website"]],priceMin:null,
+  sessions:[{d:"2026-10-24",t:null,e:null,v:P.willen,book:PT},{d:"2026-10-25",t:null,e:null,v:P.willen,book:PT}],
+  notes:["The brochure only gives the dates and place. Check times and prices on the Parks Trust website."],src:"Parks Trust brochure"},
+ {id:"abba",title:"ABBA Sensation",cats:["music","shows"],aud:"family",img:"img/abba.jpg",
+  blurb:"One of Europe's best-loved ABBA tribute bands, with costume changes, lights and plenty of singing and dancing along.",
+  age:"All ages · evening show",essential:false,verified:"ok",
+  prices:[["Adult","£22"],["Concession","£20"],["Booking fee","+£1.50 per ticket"]],priceMin:20,
+  sessions:[{d:"2026-11-14",t:"19:30",e:null,v:V.stanton,book:"https://www.stantonburytheatre.co.uk/whats-on/all-shows/abba-sensation/17692/"}],src:"stantonburytheatre.co.uk"},
+ {id:"beatles",title:"Beatlemania: Shake It Up Baby",cats:["music","shows"],aud:"family",img:"img/beatles.jpg",
+  blurb:"A note-perfect live tribute to The Beatles, from the mop-top years to Sgt Pepper.",
+  age:"All ages · evening show",essential:false,verified:"ok",
+  prices:[["Ticket","£26"],["Booking fee","+£1.50 per ticket"]],priceMin:26,
+  sessions:[{d:"2026-12-04",t:"19:30",e:null,v:V.stanton,book:"https://www.stantonburytheatre.co.uk/whats-on/all-shows/beatlemania-shake-it-up-baby-tour-2026/17698/"}],src:"stantonburytheatre.co.uk"},
+ {id:"armistice",title:"Armistice Day",cats:["community"],aud:"adults",img:null,art:"poppy",
+  blurb:"Remembrance at the Milton Keynes Rose. Check the Parks Trust website for the time.",
+  age:"All ages welcome",essential:false,verified:"fl",prices:[["Everyone","Free"]],priceMin:0,
+  sessions:[{d:"2026-11-11",t:null,e:null,v:P.rose,book:PT}],src:"Parks Trust brochure"},
+ {id:"wwn",title:"Women's Walking Network",cats:["nature","community"],aud:"adults",img:"img/stroll.jpg",
+  blurb:"A monthly walk for women.",age:"Women",essential:false,verified:"fl",prices:[["Everyone","Free"]],priceMin:0,
+  sessions:[{d:"2026-11-05",t:"10:00",e:null,v:P.cald,book:PT},{d:"2026-12-03",t:"10:00",e:null,v:P.howe,book:PT}],src:"Parks Trust brochure"},
+ {id:"green",title:"Green Break",cats:["nature"],aud:"adults",img:null,art:"leaf",isNew:true,
+  blurb:"A lunchtime break outdoors.",age:"Grown-ups",essential:false,verified:"fl",prices:[["Everyone","Free"]],priceMin:0,
+  sessions:[{d:"2026-11-10",t:"12:45",e:null,v:P.shenley,book:PT},{d:"2026-12-10",t:"12:45",e:null,v:P.tear,book:PT}],src:"Parks Trust brochure"},
+ {id:"wetland",title:"Talk: Balancing Lakes and Wetlands",cats:["nature"],aud:"adults",img:null,art:"wave",
+  blurb:"How MK's wetland arc and flood defences work.",age:"Grown-ups and curious teens",essential:true,verified:"fl",prices:[["Per person","£5"]],priceMin:5,
+  sessions:[{d:"2026-11-12",t:"17:30",e:"19:00",v:P.linLakes,book:PT}],src:"Parks Trust brochure"},
+];
+
+/* ---------- HELPERS ---------- */
+const $=s=>document.querySelector(s);
+const esc=s=>String(s??"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const pd=s=>{const [y,m,d]=s.split("-").map(Number);return new Date(y,m-1,d);};
+const MON=["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+const MONL=["January","February","March","April","May","June","July","August","September","October","November","December"];
+const DOW=["Sun","Mon","Tue","Wed","Thu","Fri","Sat"];
+const fmtT=t=>{if(!t)return "Time TBC";let [h,m]=t.split(":").map(Number);const ap=h>=12?"pm":"am";h=h%12||12;return h+(m?":"+String(m).padStart(2,"0"):"")+ap;};
+const fmtD=s=>{const d=pd(s);return DOW[d.getDay()]+" "+d.getDate()+" "+MON[d.getMonth()];};
+const days=s=>Math.round((pd(s)-TODAY)/864e5);
+const store={get(k,f){try{const v=localStorage.getItem(k);return v?JSON.parse(v):f}catch(e){return f}},set(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}};
+let saved=new Set(store.get("sts-saved",[]));
+const icon={pin:'<svg viewBox="0 0 24 24"><path d="M12 21s-7-6.2-7-11.5A7 7 0 0 1 19 9.5C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg>',
+  clock:'<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>',
+  tag:'<svg viewBox="0 0 24 24"><path d="M3 12V4h8l10 10-8 8z"/><circle cx="7.5" cy="8.5" r="1.5"/></svg>'};
+const ART={ghost:["#2b1d5c","#ff7b24","M50 18c-14 0-22 10-22 24v28l7-5 7 5 8-5 8 5 7-5 7 5V42c0-14-8-24-22-24z","M42 40a3 4 0 1 0 0 .1M58 40a3 4 0 1 0 0 .1"],
+  wreath:["#123b2b","#ef4a4f","M50 22a28 28 0 1 0 .1 0zM50 34a16 16 0 1 1-.1 0z","M44 72l6-8 6 8z"],
+  stars:["#101a46","#ffc94a","M50 20l6 18h19l-15 11 6 18-16-11-16 11 6-18-15-11h19z",""],
+  moon:["#14163f","#ffe7a3","M58 20a30 30 0 1 0 22 46A24 24 0 0 1 58 20z",""],
+  leaf:["#163d2c","#2fc283","M30 72C30 40 50 24 76 22c0 30-16 50-46 50zM30 72l26-26",""],
+  mushroom:["#3a1e2e","#ef4a4f","M22 50a28 22 0 0 1 56 0z","M42 50h16v24H42z"],
+  bike:["#14304a","#7ee0d0","M30 62a12 12 0 1 0 .1 0M70 62a12 12 0 1 0 .1 0M30 74l14-24h18l8 24M44 50l-4-8h-6M62 50l4-10h6",""],
+  run:["#14304a","#7ee0d0","M56 22a6 6 0 1 0 .1 0M50 34l-10 14 10 8-6 18M50 34l12 10 10-4M46 52l-14 4",""],
+  dog:["#2a2350","#ffc94a","M28 46l6-14 8 10h18l8-8 4 12v14l-6 4v12h-6V64H42v12h-6V60l-8-4z",""],
+  food:["#3b1f12","#ff7b24","M24 54h52a26 18 0 0 1-52 0zM24 48h52M34 40c0-6 6-6 6-12M50 40c0-6 6-6 6-12M66 40c0-6 6-6 6-12",""],
+  poppy:["#2a1022","#ef4a4f","M50 30a10 10 0 1 0 .1 0M38 42a10 10 0 1 0 .1 0M62 42a10 10 0 1 0 .1 0M50 54a10 10 0 1 0 .1 0","M50 52v26"],
+  wave:["#0f2f46","#86d4ff","M16 50q10-10 20 0t20 0 20 0 20 0M16 64q10-10 20 0t20 0 20 0 20 0M16 36q10-10 20 0t20 0 20 0 20 0",""]};
+function artSVG(k){const a=ART[k]||ART.stars;const stroke=["bike","run","food","leaf","wave"].includes(k);
+  return `<svg class="art" viewBox="0 0 100 62.5" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><defs><radialGradient id="g${k}" cx=".3" cy=".2" r="1"><stop offset="0" stop-color="${a[1]}" stop-opacity=".35"/><stop offset=".6" stop-color="${a[0]}"/></radialGradient></defs><rect width="100" height="62.5" fill="url(#g${k})"/><g transform="translate(20 -8) scale(.62)"><path d="${a[2]}" fill="${stroke?"none":a[1]}" stroke="${a[1]}" stroke-width="${stroke?4:0}" stroke-linecap="round" stroke-linejoin="round"/>${a[3]?`<path d="${a[3]}" fill="${k==="ghost"?"#15112e":a[1]}" stroke="${a[1]}" stroke-width="${k==="poppy"?3:0}"/>`:""}</g><g fill="#fff" opacity=".5"><circle cx="8" cy="10" r=".7"/><circle cx="90" cy="14" r=".9"/><circle cx="80" cy="50" r=".6"/><circle cx="14" cy="48" r=".8"/></g></svg>`;}
+
+/* ---------- STATE ---------- */
+const st={q:"",months:new Set(),cats:new Set(),from:"",to:"",aud:"",price:"",ess:false,savedOnly:false,hideAdult:true,sort:"date",view:"month",day:null,year:"2026"};
+Object.assign(st,store.get("sts-view",{}));st.months=new Set();st.cats=new Set();
+
+function upcoming(ev){return ev.sessions.filter(s=>days(s.d)>=0).sort((a,b)=>(a.d+(a.t||"")).localeCompare(b.d+(b.t||"")));}
+function matches(ev){
+  if(st.hideAdult&&ev.aud==="adults"&&!st.savedOnly)return false;
+  if(st.aud&&ev.aud!==st.aud)return false;
+  if(st.cats.size&&!ev.cats.some(c=>st.cats.has(c)))return false;
+  if(st.ess&&!ev.essential)return false;
+  if(st.price==="free"&&ev.priceMin!==0)return false;
+  if(st.price==="paid"&&ev.priceMin===0)return false;
+  if(st.savedOnly&&!saved.has(ev.id))return false;
+  if(st.q){const h=(ev.title+" "+ev.blurb+" "+ev.cats.map(c=>CATS[c].n).join(" ")+" "+ev.sessions.map(s=>s.v.name+" "+s.v.addr).join(" ")).toLowerCase();if(!st.q.toLowerCase().split(/\s+/).every(w=>h.includes(w)))return false;}
+  return sessionsIn(ev).length>0;
+}
+function sessionsIn(ev){return upcoming(ev).filter(s=>{
+  if(!s.d.startsWith(st.year))return false;
+  if(st.months.size&&!st.months.has(s.d.slice(5,7)))return false;
+  if(st.from&&s.d<st.from)return false; if(st.to&&s.d>st.to)return false;
+  if(st.day&&s.d!==st.day)return false; return true;});}
+const evColor=ev=>CATS[ev.cats[0]].c;
+
+/* ---------- RENDER ---------- */
+function priceLine(ev){if(ev.priceMin===0&&ev.prices.every(p=>/Free/.test(p[1])))return "Free";if(ev.priceMin===0)return "Free for some";if(ev.priceMin==null)return "Price at checkout";return "From £"+(ev.priceMin%1?ev.priceMin.toFixed(2):ev.priceMin);}
+function card(ev,ss){
+  const s=ss[0],d=pd(s.d),n=days(s.d),dates=[...new Set(ss.map(x=>x.d))];
+  const venues=[...new Set(ss.map(x=>x.v.name))];
+  const cover=ev.img?`<img src="${ev.img}" alt="${esc(ev.title)} flyer" loading="lazy"><span class="credit">Photo: event flyer</span>`:artSVG(ev.art);
+  const soon=n===0?"Today":n===1?"Tomorrow":n<=7?`In ${n} days`:"";
+  return `<article class="card" style="--c:${evColor(ev)}" data-id="${ev.id}">
+   <div class="cover">${cover}<div class="ribbon">${ev.cats.slice(0,2).map(c=>`<span class="tag" style="--c:${CATS[c].c}">${CATS[c].n}</span>`).join("")}${ev.isNew?`<span class="tag" style="--c:#fff">New</span>`:""}</div>
+   <button class="heart" aria-pressed="${saved.has(ev.id)}" aria-label="Save ${esc(ev.title)}" data-save="${ev.id}"><svg viewBox="0 0 24 24"><path d="M12 21s-7.5-4.6-9.5-9.2C1.2 8.6 3.3 5 6.8 5c2 0 3.4 1.1 4.2 2.4C11.8 6.1 13.2 5 15.2 5c3.5 0 5.6 3.6 4.3 6.8C19.5 16.4 12 21 12 21z"/></svg></button></div>
+   <div class="stub"><div class="date-stub"><span class="m">${MON[d.getMonth()]}</span><span class="d">${d.getDate()}</span><span class="w">${DOW[d.getDay()]}</span>${dates.length>1?`<span class="more-d">+${dates.length-1} more</span>`:""}</div>
+   <div class="body"><h3>${esc(ev.title)}</h3>
+    <div class="meta"><span>${icon.clock}${fmtT(s.t)}${s.e?"–"+fmtT(s.e):""}${ss.length>1?` · ${ss.length} sessions`:""}</span><span>${icon.pin}${esc(venues.length>1?venues.length+" MK parks":venues[0])}</span><span>${icon.tag}${priceLine(ev)}</span></div>
+    <div class="mini">${soon?`<span class="soon">${soon}</span>`:""}${ev.priceMin===0?`<span class="free">Free</span>`:""}${ev.essential?`<span class="ess">Book ahead</span>`:""}<span>${ev.aud==="kids"?"Made for kids":ev.aud==="adults"?"Grown-ups":"All the family"}</span></div>
+    <div class="actions"><button class="btn btn-gold btn-sm" data-open="${ev.id}">Details &amp; reminders</button><a class="btn btn-ghost btn-sm" data-bk="${ev.id}" href="${s.book}" target="_blank" rel="noopener">Book</a></div>
+   </div></div></article>`;
+}
+function render(){
+  store.set("sts-view",{view:st.view,hideAdult:st.hideAdult,sort:st.sort});
+  const list=EVENTS.filter(matches).map(ev=>({ev,ss:sessionsIn(ev)}));
+  const sorter={date:(a,b)=>(a.ss[0].d+(a.ss[0].t||"")).localeCompare(b.ss[0].d+(b.ss[0].t||"")),az:(a,b)=>a.ev.title.localeCompare(b.ev.title),cheap:(a,b)=>((a.ev.priceMin??99)-(b.ev.priceMin??99))||a.ss[0].d.localeCompare(b.ss[0].d)}[st.sort];
+  list.sort(sorter);
+  $("#count").textContent=`${list.length} event${list.length===1?"":"s"}${st.day?" on "+fmtD(st.day):""} · ${list.reduce((n,x)=>n+x.ss.length,0)} sessions`;
+  const out=$("#results");
+  if(st.view==="cal"){out.innerHTML=calendar()+(st.day?`<div class="daylist"><div class="group-h"><h2>${fmtD(st.day)}</h2><button class="btn btn-ghost btn-sm" id="clearDay">Show all days</button></div><div class="grid">${list.map(x=>card(x.ev,x.ss)).join("")}</div></div>`:`<p class="small" style="margin-top:14px">Tap a highlighted day to see what's on.</p>`);return;}
+  if(!list.length){out.innerHTML=`<div class="empty"><h3>Nothing matches those filters</h3><p>Try another month or type, or clear the filters.</p><button class="btn btn-gold" id="emptyReset">Clear all filters</button></div>`;return;}
+  let groups=[];
+  if(st.view==="cat"){
+    Object.keys(CATS).forEach(k=>{const g=list.filter(x=>x.ev.cats[0]===k);if(g.length)groups.push([CATS[k].n,`${g.length} event${g.length>1?"s":""}`,g,CATS[k].c]);});
+  }else{
+    const by={};list.forEach(x=>{const m=x.ss[0].d.slice(0,7);(by[m]=by[m]||[]).push(x);});
+    Object.keys(by).sort().forEach(m=>{const mi=+m.slice(5)-1;const mood={9:"Spooky season",10:"Sparkles & bonfires",11:"Snowy & festive"}[mi]||"";groups.push([MONL[mi]+" "+m.slice(0,4),mood+" · "+by[m].length+" event"+(by[m].length>1?"s":""),by[m],{9:"var(--pumpkin)",10:"var(--magic)",11:"var(--holly)"}[mi]]);});
+  }
+  out.innerHTML=groups.map(([h,sub,g,c])=>`<section class="group"><div class="group-h"><h2 style="color:${c}">${h}</h2><span class="sub">${sub}</span></div><div class="grid">${g.map(x=>card(x.ev,x.ss)).join("")}</div></section>`).join("");
+}
+function calendar(){
+  const months=st.months.size?[...st.months].sort():["10","11","12"];
+  return `<div class="cal">${months.map(mm=>{const m=+mm-1,y=+st.year,first=new Date(y,m,1),len=new Date(y,m+1,0).getDate();const off=(first.getDay()+6)%7;
+   let cells=["Mon","Tue","Wed","Thu","Fri","Sat","Sun"].map(d=>`<div class="dow">${d[0]}${d[1]}</div>`).join("")+"<div></div>".repeat(off);
+   for(let d=1;d<=len;d++){const ds=`${y}-${mm}-${String(d).padStart(2,"0")}`;const evs=EVENTS.filter(e=>{const keep=st.day;st.day=ds;const ok=matches(e);st.day=keep;return ok;});
+     const past=days(ds)<0,today=days(ds)===0;
+     cells+=`<button class="day${evs.length?" has":""}${st.day===ds?" sel":""}${past?" past":""}${today?" today":""}" ${evs.length?`data-day="${ds}" aria-label="${fmtD(ds)}: ${evs.length} events"`:"disabled"}>${d}<span class="dots">${evs.slice(0,6).map(e=>`<i style="--c:${evColor(e)}"></i>`).join("")}</span></button>`;}
+   return `<div class="month"><h3>${MONL[m]} ${y}</h3><div class="mgrid">${cells}</div></div>`;}).join("")}</div>`;
+}
+function chips(){
+  $("#monthChips").innerHTML=`<button class="chip" data-month="" aria-pressed="${!st.months.size}">All months</button>`+["10","11","12"].map(m=>`<button class="chip" data-month="${m}" aria-pressed="${st.months.has(m)}"><span class="dot" style="--c:${{"10":"var(--pumpkin)","11":"var(--magic)","12":"var(--holly)"}[m]}"></span>${MONL[+m-1]}</button>`).join("");
+  $("#catChips").innerHTML=`<button class="chip" data-cat="" aria-pressed="${!st.cats.size}">All types</button>`+Object.entries(CATS).map(([k,c])=>`<button class="chip" data-cat="${k}" aria-pressed="${st.cats.has(k)}"><span class="dot" style="--c:${c.c}"></span>${c.n}</button>`).join("");
+  ["month","cat","cal"].forEach(v=>$("#v-"+v).setAttribute("aria-pressed",st.view===v));
+  $("#hideAdult").checked=st.hideAdult;$("#sort").value=st.sort;
+}
+function planBadge(pop){const b=$("#planCount");b.textContent=saved.size;b.hidden=!saved.size;if(pop){b.classList.remove("pop");void b.offsetWidth;b.classList.add("pop");}}
+function heroBits(){
+  const all=EVENTS.filter(e=>upcoming(e).length);
+  const free=all.filter(e=>e.priceMin===0).length;
+  $("#stats").innerHTML=`<span class="pill"><b>${all.length}</b> events</span><span class="pill"><b>${all.reduce((n,e)=>n+upcoming(e).length,0)}</b> dates &amp; sessions</span><span class="pill"><b>${free}</b> free</span><span class="pill"><b>4</b> organisers checked</span>`;
+  const kids=all.filter(e=>e.aud!=="adults").map(e=>({e,s:upcoming(e)[0]})).sort((a,b)=>(a.s.d+(a.s.t||"")).localeCompare(b.s.d+(b.s.t||"")))[0];
+  if(kids){const n=days(kids.s.d);$("#next").innerHTML=`<span class="cd">${n===0?"Today":n===1?"Tomorrow":n+" days"}</span><span>until <b>${esc(kids.e.title)}</b><br><span class="small">${fmtD(kids.s.d)} · ${fmtT(kids.s.t)} · ${esc(kids.s.v.name)}</span></span><button class="btn btn-gold btn-sm" data-open="${kids.e.id}">See details</button>`;}
+}
+
+/* ---------- DETAIL DRAWER ---------- */
+function gcal(ev,s,remindDays){
+  const dt=s.d.replace(/-/g,""),t=(s.t||"09:00").replace(":",""),e=(s.e||((s.t?String(Math.min(23,+s.t.slice(0,2)+(ev.id==="panto"?2:1))).padStart(2,"0")+s.t.slice(2):"17:00"))).replace(":","");
+  const details=`${ev.blurb}\n\nBook: ${s.book}\nPrices: ${ev.prices.map(p=>p[0]+" "+p[1]).join("; ")}\nWhere: ${s.v.name}, ${s.v.addr}${s.v.w3w?" (///"+s.v.w3w+")":""}`;
+  const u=new URL("https://calendar.google.com/calendar/render");
+  if(remindDays==null){u.search=new URLSearchParams({action:"TEMPLATE",text:ev.title,dates:`${dt}T${t}00/${dt}T${e}00`,ctz:"Europe/London",details,location:s.v.addr}).toString();}
+  else{const r=pd(s.d);r.setDate(r.getDate()-remindDays);const rd=`${r.getFullYear()}${String(r.getMonth()+1).padStart(2,"0")}${String(r.getDate()).padStart(2,"0")}`;
+    u.search=new URLSearchParams({action:"TEMPLATE",text:`Reminder: book ${ev.title} (${fmtD(s.d)})`,dates:`${rd}T090000/${rd}T091500`,ctz:"Europe/London",details:`Event on ${fmtD(s.d)} at ${fmtT(s.t)}.\n\n`+details,location:s.v.addr}).toString();}
+  return u.toString();
+}
+function outlook(ev,s){const st_=`${s.d}T${s.t||"09:00"}:00`;const u=new URL("https://outlook.live.com/calendar/0/deeplink/compose");u.search=new URLSearchParams({subject:ev.title,startdt:st_,body:`${ev.blurb}\n\nBook: ${s.book}`,location:s.v.addr,path:"/calendar/action/compose",rru:"addevent"}).toString();return u.toString();}
+function textFor(ev,s){return `${ev.title}\n${fmtD(s.d)} 2026, ${fmtT(s.t)}${s.e?"–"+fmtT(s.e):""}\n${s.v.name}, ${s.v.addr}${s.v.w3w?" · what3words ///"+s.v.w3w:""}\nPrices: ${ev.prices.map(p=>p[0]+" "+p[1]).join("; ")}\nBook here: ${s.book}`;}
+async function copy(txt,btn){let ok=false;try{await navigator.clipboard.writeText(txt);ok=true;}catch(e){}
+  const span=btn.parentElement.querySelector(".copied")||btn.insertAdjacentElement("afterend",Object.assign(document.createElement("span"),{className:"copied"}));
+  span.textContent=ok?"Copied":"Select the text below and copy it";if(!ok){const ta=btn.closest(".sec").querySelector("textarea");if(ta){ta.hidden=false;ta.select();}}
+  setTimeout(()=>{if(ok)span.textContent=""},2500);}
+function openEv(id,si){if(si==null)bump("details",id);
+  const ev=EVENTS.find(e=>e.id===id);const ups=upcoming(ev);if(!ups.length)return;
+  const s=ups[Math.min(si||0,ups.length-1)];
+  $("#dlgTitle").textContent=ev.title;
+  const byDate={};ups.forEach((x,i)=>{(byDate[x.d]=byDate[x.d]||[]).push([x,i]);});
+  const venues=[...new Map(ups.map(x=>[x.v.name+x.v.addr,x.v])).values()];
+  const email=store.get("sts-email","");
+  $("#dlgBody").innerHTML=`
+   <div class="hero-img" style="--c:${evColor(ev)}">${ev.img?`<img src="${ev.img}" alt="${esc(ev.title)} flyer"><span class="credit">Photo: event flyer</span>`:artSVG(ev.art)}</div>
+   <div class="row">${ev.verified==="ok"?`<span class="verify ok">✓ Matches the organiser's website</span>`:`<span class="verify fl">From the printed programme</span>`}${ev.cats.map(c=>`<span class="tag" style="--c:${CATS[c].c}">${CATS[c].n}</span>`).join("")}<button class="btn btn-ghost btn-sm" data-save="${ev.id}" aria-pressed="${saved.has(ev.id)}" style="margin-left:auto">${saved.has(ev.id)?"♥ Saved":"♡ Save"}</button></div>
+   <div class="sec"><p style="font-size:17px">${esc(ev.blurb)}</p><p class="small">${esc(ev.age)}</p></div>
+   <div class="sec"><h4>Dates &amp; times</h4><div class="box tbl"><table><thead><tr><th>Date</th><th>Times</th><th></th></tr></thead><tbody>${Object.entries(byDate).map(([d,xs])=>`<tr><td style="white-space:nowrap"><b>${fmtD(d)}</b>${venues.length>1?`<br><span class="small">${esc(xs[0][0].v.name)}</span>`:""}</td><td><div class="sess">${xs.map(([x,i])=>`<button class="t${x.kind==="SEN quiet"||x.kind==="Relaxed"?" g":x.kind?" k":""}" data-pick="${i}" title="${x.kind||""}" style="cursor:pointer">${fmtT(x.t)}${x.e?"–"+fmtT(x.e):""}${x.kind?" · "+x.kind:""}</button>`).join("")}</div></td><td><a class="btn btn-gold btn-sm" data-bk="${ev.id}" href="${xs[0][0].book}" target="_blank" rel="noopener">Book</a></td></tr>`).join("")}</tbody></table></div>
+    <p class="small" style="margin-top:6px">Tap a time to set it for the reminder below.</p></div>
+   <div class="sec"><h4>Tickets</h4><div class="box tbl"><table><tbody>${ev.prices.map(p=>`<tr><td>${esc(p[0])}</td><td class="price">${esc(p[1])}</td></tr>`).join("")}</tbody></table></div>
+    <div class="row" style="margin-top:10px"><a class="btn btn-gold" data-bk="${ev.id}" href="${s.book}" target="_blank" rel="noopener">Book on the official site</a>${ev.page?`<a class="btn btn-ghost" href="${ev.page}" target="_blank" rel="noopener">Event page</a>`:""}${ev.essential?`<span class="small">Booking essential</span>`:`<span class="small">Pay on the door or book ahead</span>`}</div></div>
+   ${ev.notes?`<div class="sec"><h4>Good to know</h4><div style="display:grid;gap:8px">${ev.notes.map(n=>`<div class="note"><span aria-hidden="true">★</span><span>${esc(n)}</span></div>`).join("")}</div></div>`:""}
+   <div class="sec"><h4>Getting there from Central MK</h4>${venues.map(v=>`<div style="margin-bottom:12px"><p><b>${esc(v.name)}</b><br><span class="small">${esc(v.addr)}${v.w3w?` · <a href="https://what3words.com/${v.w3w}" target="_blank" rel="noopener">///${v.w3w}</a>`:""}</span></p>
+     <div class="travel"><div class="box"><h5>By car</h5><p>${esc(v.car)}</p><a class="btn btn-ghost btn-sm" target="_blank" rel="noopener" href="https://www.google.com/maps/dir/?api=1&origin=${encodeURIComponent("Central Milton Keynes")}&destination=${encodeURIComponent(v.q)}&travelmode=driving">Driving route</a></div>
+     <div class="box"><h5>By train &amp; bus</h5><p>${esc(v.train)}</p><a class="btn btn-ghost btn-sm" target="_blank" rel="noopener" href="https://www.google.com/maps/dir/?api=1&origin=${encodeURIComponent("Milton Keynes Central station")}&destination=${encodeURIComponent(v.q)}&travelmode=transit">Public transport route</a></div></div>
+     <p class="small" style="margin-top:6px">Venue info: <a href="${v.info}" target="_blank" rel="noopener">official page</a> · Phone ${esc(v.phone)}</p></div>`).join("")}</div>
+   <div class="sec rem"><h4>Reminders</h4>
+    <div class="box" style="display:grid;gap:12px">
+     <p style="margin:0">Chosen session: <b id="remSess">${fmtD(s.d)}, ${fmtT(s.t)}</b></p>
+     <div class="row"><label>Remind me<select id="remWhen"><option value="1">1 day before</option><option value="3">3 days before</option><option value="7" selected>1 week before</option><option value="14">2 weeks before</option></select></label>
+      <label>Your email<input type="email" id="remEmail" placeholder="you@example.com" value="${esc(email)}" autocomplete="email"></label></div>
+     <div class="row">
+      <a class="btn btn-gold btn-sm" id="gRem" data-cal="${ev.id}" target="_blank" rel="noopener" href="${gcal(ev,s,7)}">Add booking reminder to Google Calendar</a>
+      <a class="btn btn-ghost btn-sm" id="gEv" data-cal="${ev.id}" target="_blank" rel="noopener" href="${gcal(ev,s,null)}">Add event to Google Calendar</a>
+      <a class="btn btn-ghost btn-sm" id="oEv" data-cal="${ev.id}" target="_blank" rel="noopener" href="${outlook(ev,s)}">Outlook calendar</a></div>
+     <div class="row"><a class="btn btn-ghost btn-sm" id="mail" href="#">Email me the booking link</a><button class="btn btn-ghost btn-sm" id="cp">Copy details</button></div>
+     <textarea class="textout" id="txt" readonly hidden>${esc(textFor(ev,s))}</textarea>
+     <p class="small" style="margin:0">Google and Outlook send their own email or phone alerts for these entries, using your calendar's notification settings. The email button opens your mail app with the details filled in; if nothing happens, use Copy details and paste them into an email.</p>
+    </div></div>
+   <p class="small">Source: ${esc(ev.src||"")}. Checked 6 October 2026.</p>`;
+  const dlg=$("#dlg");dlg.dataset.id=id;dlg.dataset.si=ups.indexOf(s);
+  const setSess=i=>{const x=ups[i];dlg.dataset.si=i;$("#remSess").textContent=fmtD(x.d)+", "+fmtT(x.t);upd();};
+  const upd=()=>{const x=ups[+dlg.dataset.si],w=+$("#remWhen").value;$("#gRem").href=gcal(ev,x,w);$("#gEv").href=gcal(ev,x,null);$("#oEv").href=outlook(ev,x);$("#txt").value=textFor(ev,x);
+    const em=$("#remEmail").value.trim();store.set("sts-email",em);
+    $("#mail").href=`mailto:${encodeURIComponent(em)}?subject=${encodeURIComponent("Reminder: "+ev.title+" – "+fmtD(x.d))}&body=${encodeURIComponent("Remind me "+$("#remWhen").selectedOptions[0].text+".\n\n"+textFor(ev,x))}`;};
+  $("#dlgBody").querySelectorAll("[data-pick]").forEach(b=>b.onclick=()=>setSess(+b.dataset.pick));
+  $("#remWhen").onchange=upd;$("#remEmail").oninput=upd;$("#cp").onclick=e=>copy($("#txt").value,e.currentTarget);
+  upd();
+  if(!dlg.open)dlg.showModal();
+  dlg.querySelector(".sheet").scrollTop=0;
+}
+function openPlan(){
+  const items=EVENTS.filter(e=>saved.has(e.id)&&upcoming(e).length).map(e=>({e,s:upcoming(e)[0]})).sort((a,b)=>a.s.d.localeCompare(b.s.d));
+  $("#dlgTitle").textContent="My plan";const dlg=$("#dlg");dlg.dataset.id="";
+  const txt=items.map(({e,s})=>textFor(e,s)).join("\n\n");
+  $("#dlgBody").innerHTML=items.length?`<div class="sec"><p>${items.length} saved event${items.length>1?"s":""}, showing each one's next date.</p></div>
+   <div style="display:grid;gap:10px">${items.map(({e,s})=>{const d=pd(s.d);return `<div class="plan-item" style="--c:${evColor(e)}"><div class="ds"><small>${MON[d.getMonth()].toUpperCase()}</small>${d.getDate()}</div><div><b>${esc(e.title)}</b><span class="small">${fmtT(s.t)} · ${esc(s.v.name)} · ${days(s.d)} days away</span></div><div class="row"><button class="btn btn-ghost btn-sm" data-open="${e.id}">Open</button><button class="btn btn-ghost btn-sm" data-unsave="${e.id}" aria-label="Remove ${esc(e.title)}">✕</button></div></div>`;}).join("")}</div>
+   <div class="sec"><h4>Send it to yourself</h4><div class="box" style="display:grid;gap:10px"><div class="row"><a class="btn btn-gold btn-sm" href="mailto:${encodeURIComponent(store.get("sts-email",""))}?subject=${encodeURIComponent("Our family events plan, autumn 2026")}&body=${encodeURIComponent(txt)}">Email my plan</a><button class="btn btn-ghost btn-sm" id="cpPlan">Copy my plan</button></div><textarea class="textout" readonly hidden>${esc(txt)}</textarea><p class="small" style="margin:0">Saved events stay in this browser only.</p></div></div>`
+   :`<div class="empty"><h3>No saved events yet</h3><p>Tap the heart on any event to add it to your plan.</p></div>`;
+  const c=$("#cpPlan");if(c)c.onclick=e=>copy(txt,e.currentTarget);
+  if(!dlg.open)dlg.showModal();
+}
+function toggleSave(id){saved.has(id)?saved.delete(id):saved.add(id);store.set("sts-saved",[...saved]);planBadge(true);
+  document.querySelectorAll(`[data-save="${id}"]`).forEach(b=>{b.setAttribute("aria-pressed",saved.has(id));if(b.classList.contains("heart")){b.classList.remove("burst");void b.offsetWidth;b.classList.add("burst");}else b.textContent=saved.has(id)?"♥ Saved":"♡ Save";});
+  if(st.savedOnly)render();}
+
+/* ---------- EVENTS ---------- */
+document.addEventListener("click",e=>{
+  const t=e.target.closest("button,a");if(!t)return;
+  if(t.dataset.save){toggleSave(t.dataset.save);return;}
+  if(t.dataset.unsave){toggleSave(t.dataset.unsave);openPlan();return;}
+  if(t.dataset.open){openEv(t.dataset.open);return;}
+  if(t.dataset.month!==undefined){const m=t.dataset.month;m?(st.months.has(m)?st.months.delete(m):st.months.add(m)):st.months.clear();st.day=null;chips();render();return;}
+  if(t.dataset.cat!==undefined){const c=t.dataset.cat;c?(st.cats.has(c)?st.cats.delete(c):st.cats.add(c)):st.cats.clear();chips();render();return;}
+  if(t.dataset.day){st.day=st.day===t.dataset.day?null:t.dataset.day;render();return;}
+  if(t.id==="clearDay"){st.day=null;render();return;}
+  if(t.id==="reset"||t.id==="emptyReset"){Object.assign(st,{q:"",from:"",to:"",aud:"",price:"",ess:false,savedOnly:false,day:null});st.months.clear();st.cats.clear();["q","from","to","aud","price"].forEach(i=>$("#"+i).value="");$("#ess").checked=$("#savedOnly").checked=false;chips();render();}
+});
+["month","cat","cal"].forEach(v=>$("#v-"+v).onclick=()=>{st.view=v;st.day=null;chips();render();});
+$("#q").oninput=e=>{st.q=e.target.value.trim();render();};
+$("#from").onchange=e=>{st.from=e.target.value;render();};$("#to").onchange=e=>{st.to=e.target.value;render();};
+$("#aud").onchange=e=>{st.aud=e.target.value;if(st.aud==="adults"){st.hideAdult=false;}chips();render();};
+$("#price").onchange=e=>{st.price=e.target.value;render();};$("#sort").onchange=e=>{st.sort=e.target.value;render();};
+$("#year").onchange=e=>{st.year=e.target.value;render();};
+$("#ess").onchange=e=>{st.ess=e.target.checked;render();};$("#savedOnly").onchange=e=>{st.savedOnly=e.target.checked;render();};
+$("#hideAdult").onchange=e=>{st.hideAdult=e.target.checked;render();};
+$("#moreBtn").onclick=e=>{const m=$("#more");m.hidden=!m.hidden;e.currentTarget.setAttribute("aria-expanded",!m.hidden);};
+$("#planBtn").onclick=openPlan;
+$("#dlgX").onclick=()=>$("#dlg").close();
+$("#dlg").addEventListener("click",e=>{if(e.target.id==="dlg")$("#dlg").close();});
+
+/* ---------- SKY: stars + snow ---------- */
+(function(){const c=$("#sky"),x=c.getContext("2d");let w,h,parts=[];const reduce=matchMedia("(prefers-reduced-motion: reduce)").matches;
+ function size(){const r=c.getBoundingClientRect();w=c.width=r.width*devicePixelRatio;h=c.height=r.height*devicePixelRatio;
+  parts=Array.from({length:Math.round(r.width/7)},(_,i)=>({x:Math.random()*w,y:Math.random()*h,r:(Math.random()*1.6+.4)*devicePixelRatio,s:i%3===0,v:Math.random()*.5+.2,p:Math.random()*6}));}
+ function frame(t){x.clearRect(0,0,w,h);parts.forEach(p=>{if(p.s&&!reduce){p.y+=p.v*devicePixelRatio;p.x+=Math.sin(t/1400+p.p)*.3;if(p.y>h)p.y=-5;}
+   const a=p.s?.75:.35+.65*Math.abs(Math.sin(t/900+p.p*3));x.globalAlpha=reduce?.6:a;x.fillStyle=p.s?"#ffffff":(p.p>4?"#ffc94a":"#e9e4ff");x.beginPath();x.arc(p.x,p.y,p.r,0,7);x.fill();});
+  if(!reduce)requestAnimationFrame(frame);}
+ size();addEventListener("resize",size);requestAnimationFrame(frame);})();
+
+
+/* ---------- PAGE VIEWS (shared db; one record per visit) ---------- */
+const TRACK={db:null,ref:null,rec:null,timer:null};
+function bump(kind,id){const r=TRACK.rec;if(!r)return;if(kind==="details"||kind==="book"||kind==="cal"){r[kind]=r[kind]||{};r[kind][id]=(r[kind][id]||0)+1;}else r[kind]=(r[kind]||0)+1;
+  clearTimeout(TRACK.timer);TRACK.timer=setTimeout(()=>{TRACK.ref&&TRACK.ref.set(r).catch(()=>{});},1200);}
+(async()=>{
+  try{
+    if(!window.claude||!claude.use)return;
+    const db=await claude.use("db");if(!db)return;TRACK.db=db;
+    const now=new Date();const pad=n=>String(n).padStart(2,"0");
+    TRACK.rec={at:now.toISOString(),day:`${now.getFullYear()}-${pad(now.getMonth()+1)}-${pad(now.getDate())}`,hour:now.getHours(),opens:1,device:matchMedia("(max-width:640px)").matches?"phone":"larger screen"};
+    TRACK.ref=db.collection("views").doc();await TRACK.ref.set(TRACK.rec);
+  }catch(e){TRACK.ref=null;}
+  try{const user=await claude.use("user");const ok=user&&((user.isOwner&&await user.isOwner())||(user.canEdit&&await user.canEdit()));if(ok)$("#statsBtn").hidden=false;}catch(e){}
+})();
+document.addEventListener("click",e=>{const a=e.target.closest("[data-bk],[data-cal]");if(!a)return;if(a.dataset.bk)bump("book",a.dataset.bk);else bump("cal",a.dataset.cal);},true);
+async function openStats(){
+  const dlg=$("#dlg");dlg.dataset.id="";$("#dlgTitle").textContent="Page views";
+  $("#dlgBody").innerHTML=`<p class="small">Loading…</p>`;if(!dlg.open)dlg.showModal();
+  let docs=[];
+  try{const snap=await TRACK.db.collection("views").orderBy("at","desc").limit(1000).get();docs=snap.docs.map(d=>d.data()).filter(Boolean);}catch(e){$("#dlgBody").innerHTML=`<div class="empty"><h3>Couldn't load the numbers</h3><p>Close this and try again in a moment.</p></div>`;return;}
+  const pad=n=>String(n).padStart(2,"0"),dkey=d=>`${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}`;
+  const today=dkey(new Date());
+  const sum=(k)=>{const o={};docs.forEach(r=>Object.entries(r[k]||{}).forEach(([id,n])=>o[id]=(o[id]||0)+n));return o;};
+  const det=sum("details"),bk=sum("book"),cal=sum("cal");
+  const tot=o=>Object.values(o).reduce((a,b)=>a+b,0);
+  const days14=[...Array(14)].map((_,i)=>{const d=new Date();d.setDate(d.getDate()-13+i);return dkey(d);});
+  const perDay=days14.map(k=>docs.filter(r=>r.day===k).length);const mx=Math.max(1,...perDay);
+  const rank=(o,c)=>{const e=Object.entries(o).sort((a,b)=>b[1]-a[1]).slice(0,8);if(!e.length)return `<p class="small">None yet.</p>`;const m=e[0][1];
+    return `<div class="rank">${e.map(([id,n])=>{const ev=EVENTS.find(x=>x.id===id);return `<div style="--c:${ev?evColor(ev):c}"><span>${esc(ev?ev.title:id)}</span><b>${n}</b><i style="width:${Math.max(4,n/m*100)}%"></i></div>`;}).join("")}</div>`;};
+  $("#dlgBody").innerHTML=`
+   <div class="kpis"><div class="kpi"><b>${docs.length}${docs.length>=1000?"+":""}</b><span>Page opens, all time</span></div>
+    <div class="kpi"><b>${docs.filter(r=>r.day===today).length}</b><span>Opens today</span></div>
+    <div class="kpi"><b>${tot(det)}</b><span>Event details opened</span></div>
+    <div class="kpi"><b>${tot(bk)}</b><span>Booking links clicked</span></div>
+    <div class="kpi"><b>${tot(cal)}</b><span>Added to a calendar</span></div></div>
+   <div class="sec"><h4>Opens in the last 14 days</h4><div class="box"><div class="bars">${perDay.map((n,i)=>`<div class="${i===13?"t":""}" style="height:${n/mx*100}%"><span>${n||""}</span></div>`).join("")}</div><div class="bars-x">${days14.map(k=>+k.slice(8)).map(d=>`<span>${d}</span>`).join("")}</div></div></div>
+   <div class="sec"><h4>Most opened events</h4><div class="box">${rank(det,"var(--magic)")}</div></div>
+   <div class="sec"><h4>Most clicked booking links</h4><div class="box">${rank(bk,"var(--gold)")}</div></div>
+   <p class="small">Every visit counts, including repeat visits by the same person on the same day. Visits are counted when the viewer is signed in to Claude; people opening the page without signing in aren't counted. The Page views button only appears for you and editors. The records hold no names or emails, just the time, screen type and what was clicked.</p>`;
+}
+$("#statsBtn").onclick=openStats;
+
+chips();planBadge();heroBits();render();
+</script>
+
+</body>
+</html>
